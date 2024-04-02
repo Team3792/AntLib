@@ -1,0 +1,1 @@
+AntLib is a library created for and by team 3792, the Army Ants from Columbia Missouri. It includes features ranging from debugging electrical issues to templates for commonly used subsystem architectures. 
