@@ -1,0 +1,1 @@
+AntLib is a library created for and by [FRC Team 3792, the Army Ants from Columbia Missouri](http://armyants.us/). It includes features ranging from debugging electrical issues to templates for commonly used subsystem architectures. It will be developed in the 2025 pre-season and will be first implemented in the 2025 FRC game. 
