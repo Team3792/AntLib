@@ -5,33 +5,30 @@
 package frc.lib.debugging;
 
 import java.util.ArrayList;
-import java.util.function.Supplier;
 import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.lib.debugging.Connection;
 
 /** Add your docs here. */
 public class ConnectionManager {
-    static ArrayList<Connection> connections = new ArrayList<Connection>();
-    static Connection allConnectedConnection = new Connection("All Connected", () -> allConnected());
-
-    public static void addConnection(Connection connection){
-        connections.add(connection);
-        Shuffleboard.getTab("Connections").add(connection.name, connection);
-    }
+    static ArrayList<BooleanSupplier> connections = new ArrayList<BooleanSupplier>();
 
     public static void start(){
-        Shuffleboard.getTab("Connections").add("Name", allConnectedConnection);
+        Shuffleboard.getTab("Connections").addBoolean("All Connected", () -> allConnected());
     }
 
     public static void addConnection(String name, BooleanSupplier connectionFuction){
-        addConnection(new Connection(name, connectionFuction));
+        Shuffleboard.getTab("Connections").addBoolean(name, connectionFuction);
+        connections.add(connectionFuction);
     }
 
+
+    /**
+     * 
+     * @return whether all connections/checks are true
+     */
     public static boolean allConnected(){
-        for(Connection c : connections){
-            if(!c.connectionFunction.getAsBoolean()){
+        for(BooleanSupplier c : connections){
+            if(!c.getAsBoolean()){
                 return false;
             }
         }

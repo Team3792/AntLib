@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.drivers.SRXMagEncoder;
-import frc.lib.debugging.Connection;
 import frc.lib.debugging.ConnectionManager;
 
 public class RobotContainer {
