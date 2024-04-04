@@ -11,6 +11,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 public class JoystickPolarSignalProcesser {
     public static Translation2d calculate(Translation2d input, JoystickSignalProcessorConfig radialConfig){
         double radius = input.getNorm();
+        if(radius == 0)
+            return input; //Do nothing for "null" translation to avoid division by 0
         return input.times(JoystickSignalProcessor.calculate(radius, radialConfig)/radius); //Keeping arg the same, replaces radius
     }
 

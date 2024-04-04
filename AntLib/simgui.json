@@ -46,6 +46,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Match/Field": "Field2d",
       "/SmartDashboard/Intake Command": "Command"
     }
   },

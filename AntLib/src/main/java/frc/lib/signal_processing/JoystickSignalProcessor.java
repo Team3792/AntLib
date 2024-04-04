@@ -16,7 +16,7 @@ public class JoystickSignalProcessor {
      * @param maxOutput maximum output corresponding to 1
      * @param deadband deadband applied to RAW INPUT
      * @param curveType type of curve that will be applied
-     * @return
+     * @return processed output from input
      */
     public static double calculate(double input, JoystickSignalProcessorConfig config){
         //Apply Deadband
@@ -56,6 +56,6 @@ public class JoystickSignalProcessor {
 
     //Gives greater control at lower inputs but "ramps up fast" to maintain a high range (possibly good for driving)
     private static double applyCubicCurve(double rawInput){
-        return rawInput*rawInput*rawInput;
+        return Math.pow(rawInput, 7);
     }
 }
