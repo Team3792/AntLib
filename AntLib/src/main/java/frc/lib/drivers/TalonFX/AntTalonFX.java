@@ -2,12 +2,13 @@
  * This class is an extension of TalonFX that includes the connection management for the motor and other convienient features
  */
 
-package frc.lib.drivers;
+package frc.lib.drivers.TalonFX;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -61,5 +62,22 @@ public class AntTalonFX extends TalonFX{
         kElectricity, //Voltage and stator current
         kKinematics, //Position, velocity, and acceleration
         kLimitSwitches //Forward and reverse limit switches
+    }
+
+
+    public void applyConfig(TalonFXConfiguration config){
+        getConfigurator().apply(config);
+    }
+
+
+    public void setPositionWithConfiguration(double positionRotation){
+        MotionMagicVoltage request = new MotionMagicVoltage(positionRotation).withSlot(0); //0 feedforward 
+        setControl(request);
+    }
+
+
+    public void setVelocityWithConfiguration(double velocityRPS){
+        MotionMagicVelocityVoltage request = new MotionMagicVelocityVoltage(velocityRPS).withSlot(1); //
+        setControl(request);
     }
 }

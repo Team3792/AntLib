@@ -6,7 +6,7 @@
 package frc.lib.subsystem_architectures;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.drivers.AntTalonFX;
+import frc.lib.drivers.TalonFX.AntTalonFX;
 
 import java.util.ArrayList;
 import com.ctre.phoenix6.hardware.TalonFX;

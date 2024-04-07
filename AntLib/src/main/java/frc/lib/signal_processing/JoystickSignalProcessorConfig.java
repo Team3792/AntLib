@@ -4,8 +4,6 @@
 
 package frc.lib.signal_processing;
 
-import com.fasterxml.jackson.databind.cfg.ConstructorDetector.SingleArgConstructor;
-
 /** Add your docs here. */
 public class JoystickSignalProcessorConfig {
     public double minOutput, maxOutput, deadband;

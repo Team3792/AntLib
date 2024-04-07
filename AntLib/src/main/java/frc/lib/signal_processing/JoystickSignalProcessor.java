@@ -4,9 +4,6 @@
 
 package frc.lib.signal_processing;
 
-import frc.lib.signal_processing.JoystickSignalProcessorConfig;
-import frc.lib.signal_processing.JoystickSignalProcessorConfig.CurveType;
-
 /** Add your docs here. */
 public class JoystickSignalProcessor {
     /**
