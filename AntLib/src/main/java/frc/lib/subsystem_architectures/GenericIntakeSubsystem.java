@@ -6,26 +6,32 @@
 package frc.lib.subsystem_architectures;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.drivers.AntTalonFX;
+
 import java.util.ArrayList;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 public class GenericIntakeSubsystem extends SubsystemBase {
   /** Creates a new GenericIntakeSubsystem. */
-  ArrayList<TalonFX> motors = new ArrayList<TalonFX>();
+  ArrayList<AntTalonFX> motors = new ArrayList<AntTalonFX>();
   public GenericIntakeSubsystem() {}
 
-  public void addTalonFXMotor(int canID, boolean inverted){
+  public void addTalonFXMotor(int canID, boolean inverted, String name){
     //By standards, positive should be intaking. This becomes important in acceleration testing for game piece detection
-    TalonFX newMotor = new TalonFX(canID);
+    AntTalonFX newMotor = new AntTalonFX(canID, name);
     newMotor.setInverted(inverted);
     motors.add(newMotor);
+
+    //Start telemetry
+    newMotor.addInformation(AntTalonFX.MotorInformationType.kElectricity);
+    newMotor.addInformation(AntTalonFX.MotorInformationType.kKinematics);
   }
 
   /**
    * @param universalVoltage voltage that will be applied to all motors (no need to make negative for reverse if set inverted)
    */
   public void applyVoltageToIntake(double universalVoltage){
-    for(TalonFX m : motors){
+    for(AntTalonFX m : motors){
       m.setVoltage(universalVoltage);
     }
   }

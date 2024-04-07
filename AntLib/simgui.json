@@ -11,17 +11,42 @@
           "open": true
         }
       },
-      "Talon FX (v6)[0]": {
-        "header": {
-          "open": true
-        }
-      },
       "Talon FX (v6)[0]/Rev Limit": {
         "header": {
           "open": true
         }
       },
       "Talon FX (v6)[0]/Rotor Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[10]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[10]/Rotor Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[15]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[15]/Fwd Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[15]/Rev Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[15]/Rotor Sensor": {
         "header": {
           "open": true
         }
@@ -47,6 +72,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/Match/Field": "Field2d",
+      "/Shuffleboard/Match/Talon FX (v6) [10]": "Motor Controller",
       "/SmartDashboard/Intake Command": "Command"
     }
   },

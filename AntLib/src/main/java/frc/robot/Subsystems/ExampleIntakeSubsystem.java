@@ -7,11 +7,11 @@ package frc.robot.Subsystems;
 import frc.lib.subsystem_architectures.GenericIntakeSubsystem;
 
 /** Add your docs here. */
-public class IntakeSubsystem extends GenericIntakeSubsystem{
+public class ExampleIntakeSubsystem extends GenericIntakeSubsystem{
 
-    public IntakeSubsystem(){
-        addTalonFXMotor(0, false);
-        addTalonFXMotor(1, true);
+    public ExampleIntakeSubsystem(){
+        addTalonFXMotor(0, false, "Top Intake");
+        addTalonFXMotor(1, true, "Bottom Intake");
     }
 
     public void intake(){

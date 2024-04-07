@@ -5,13 +5,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import frc.lib.drivers.AntTalonFX;
 import frc.lib.drivers.SRXMagEncoder;
-import frc.robot.Subsystems.IntakeSubsystem;
+import frc.robot.Subsystems.ExampleIntakeSubsystem;
 import frc.lib.debugging.ConnectionManager;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
@@ -19,10 +21,13 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 public class RobotContainer {
   SRXMagEncoder encoder1 = new SRXMagEncoder(0, "left encoder");
   SRXMagEncoder encoder2 = new SRXMagEncoder(1, "right encoder");
-  IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  CommandPS5Controller controller = new CommandPS5Controller(0);
+
+  ExampleIntakeSubsystem intakeSubsystem = new ExampleIntakeSubsystem();
   Command intakeCommand = new FunctionalCommand(intakeSubsystem::intake, () -> {}, intakeSubsystem::stop, intakeSubsystem::hasGamePiece, intakeSubsystem);
 
+  CommandPS5Controller controller = new CommandPS5Controller(0);
+
+  
   public RobotContainer() {
     ConnectionManager.start();
     configureBindings();
