@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.signal_processing.JoystickPolarSignalProcesser;
@@ -23,7 +24,7 @@ public class Robot extends TimedRobot {
 
   //Testing signal processing
   private SwerveMovementSimulator swerveMovementSimulator = new SwerveMovementSimulator();
-  private XboxController controller = new XboxController(0);
+  private XboxController controller = new XboxController(1);
   private JoystickSignalProcessorConfig radialSignalProcessor = new JoystickSignalProcessorConfig(-2.5, 2.5, 0, CurveType.kCubic);
   private JoystickSignalProcessorConfig thetaSignalProcessor = new JoystickSignalProcessorConfig(-3, 3, 0, CurveType.kLinear);
 
@@ -70,6 +71,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    
      swerveMovementSimulator.drive(
        new Transform2d(
          JoystickPolarSignalProcesser.calculate(-controller.getLeftY(), -controller.getLeftX(), radialSignalProcessor), 

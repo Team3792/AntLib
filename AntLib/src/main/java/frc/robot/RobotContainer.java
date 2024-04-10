@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.lib.drivers.SRXMagEncoder;
+import frc.lib.drivers.PS5Controller.AntPS5Controller;
 import frc.lib.drivers.TalonFX.AntTalonFX;
 import frc.lib.drivers.TalonFX.TalonFXPositionControl;
 import frc.robot.Subsystems.ExampleIntakeSubsystem;
@@ -21,7 +22,7 @@ public class RobotContainer {
   ExampleIntakeSubsystem intakeSubsystem = new ExampleIntakeSubsystem();
   Command intakeCommand = new FunctionalCommand(intakeSubsystem::intake, () -> {}, intakeSubsystem::stop, intakeSubsystem::hasGamePiece, intakeSubsystem);
 
-  CommandPS5Controller controller = new CommandPS5Controller(0);
+  AntPS5Controller controller = new AntPS5Controller(0, "Driver Controller");
 
   AntTalonFX exampleTalonFX = new AntTalonFX(5, "Example Talon FX");
   TalonFXPositionControl positionControl = new TalonFXPositionControl(0.2, 1.0, 0.0, 1.0, 0.1, 0.0, 10.0, 10.0);
