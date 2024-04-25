@@ -13,10 +13,14 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import edu.wpi.first.wpilibj.Timer;
 
 public class AntTalonFX extends TalonFX{
     private String name;
     ShuffleboardLayout talonFXLayout;
+    double pulseStart; //stors the time stamp of the start of pulsing
 
     public AntTalonFX(int id, String baseName){
         super(id, "rio");
@@ -79,5 +83,39 @@ public class AntTalonFX extends TalonFX{
     public void setVelocityWithConfiguration(double velocityRPS){
         MotionMagicVelocityVoltage request = new MotionMagicVelocityVoltage(velocityRPS).withSlot(1); //
         setControl(request);
+    }
+
+
+    /*
+     * Reset the pulseState value to the current time so that, if desired, the pulse starts on the a state 
+     */
+    public void resetPulse(){
+        pulseStart = Timer.getFPGATimestamp();
+    }
+
+
+    /**
+     * Pulses the motor between a and b voltage at their respective times. Will start a if reset properly
+     * Pulsing can be used to achieve sufficient torque at low speeds and was inspired off 1678 and 118's trap pulsing
+     * @param aVoltage a state voltage
+     * @param bVoltage b state voltage
+     * @param aTime time to sustain a voltage in seconds
+     * @param bTime time to sustain b voltage in seconds
+     */
+    public void setPulse(double aVoltage, double bVoltage, double aTime, double bTime){ 
+      double dT = Timer.getFPGATimestamp() - pulseStart;
+      double voltage = (dT % (aTime + bTime) < aTime) ? aVoltage : bVoltage;
+      setVoltage(voltage);
+    }
+
+
+    /**
+     * Pulse specificially used for on off (high and 0)
+     * @param onVoltage voltage when the motor is considered on
+     * @param onTime time, in seconds, the motor is on
+     * @param offTime time, in seconds, the motor is off
+     */
+    public void setPulse(double onVoltage, double onTime, double offTime){
+        setPulse(onVoltage, 0, onTime, offTime);
     }
 }

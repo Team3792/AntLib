@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.lib.drivers.PS5Controller.AntPS5Controller;
 import frc.lib.signal_processing.JoystickPolarSignalProcesser;
 import frc.lib.signal_processing.JoystickSignalProcessor;
 import frc.lib.signal_processing.JoystickSignalProcessorConfig;
@@ -24,7 +25,7 @@ public class Robot extends TimedRobot {
 
   //Testing signal processing
   private SwerveMovementSimulator swerveMovementSimulator = new SwerveMovementSimulator();
-  private XboxController controller = new XboxController(1);
+  private AntPS5Controller controller = new AntPS5Controller(5, "Driver Joystick");
   private JoystickSignalProcessorConfig radialSignalProcessor = new JoystickSignalProcessorConfig(-2.5, 2.5, 0, CurveType.kCubic);
   private JoystickSignalProcessorConfig thetaSignalProcessor = new JoystickSignalProcessorConfig(-3, 3, 0, CurveType.kLinear);
 
@@ -67,6 +68,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    //controller.setRumble(1);
   }
 
   @Override
@@ -80,7 +82,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopExit() {}
+  public void teleopExit() {
+    //controller.setRumble(0);
+  }
 
   @Override
   public void testInit() {

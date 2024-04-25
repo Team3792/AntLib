@@ -6,6 +6,7 @@ package frc.lib.drivers.PS5Controller;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib.debugging.ConnectionManager;
 
 /**See png in folder for image of button mapping*/
@@ -16,11 +17,14 @@ public class AntPS5Controller extends CommandPS5Controller{
     }
 
     /**
-     * @param level level from 0 to 5 of the strength of the rumble
+     * @param level level from 0 to 1 of the strength of the rumble
      */
-    public void setRumble(int level){
-        getHID().setRumble(RumbleType.kBothRumble, level/5.0);
+    public void setRumble(double level){
+        getHID().setRumble(RumbleType.kBothRumble, level);
     }
+
+
+
 
 
     public void rumbleForTime(int level, double timeSeconds){

@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.lib.drivers.SRXMagEncoder;
 import frc.lib.drivers.PS5Controller.AntPS5Controller;
@@ -40,7 +41,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    controller.R1().whileTrue(intakeCommand);
+    controller.R1().whileTrue(new FunctionalCommand(() -> {exampleTalonFX.resetPulse();}, () -> {exampleTalonFX.setPulse(5, 1, 0.2, 0.2);}, (i) -> {exampleTalonFX.setVoltage(0);}, () -> false));
   }
 
   public Command getAutonomousCommand() {
