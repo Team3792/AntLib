@@ -13,19 +13,19 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 /** Add your docs here. */
-public class SwerveModule {
+public class SwerveModule{
     AntTalonFX driveMotor, turnMotor;
 
-    public SwerveModule(SwerveModuleConfiguration config){
-        driveMotor = new AntTalonFX(config.driveMotorID, "Swerve Drive - " + config.driveMotorID);
-        turnMotor = new AntTalonFX(config.turnMotorID, "Swerve Drive - " + config.turnMotorID);
+    public SwerveModule(GlobalSwerveConfiguration globalConfig, SwerveModuleConfiguration moduleConfig){
+        driveMotor = new AntTalonFX(moduleConfig.driveMotorID, "Swerve Drive - " + moduleConfig.driveMotorID);
+        turnMotor = new AntTalonFX(moduleConfig.turnMotorID, "Swerve Drive - " + moduleConfig.turnMotorID);
 
         //Edit and apply motor configurations
-        TalonFXConfiguration driveConfig = config.driveVelocityControl.getConfig();
-        driveConfig.Feedback.SensorToMechanismRatio = config.driveRatio / config.wheelCircumferenceMeters; //Set gear ratio for drive to be equivalent to distance
+        TalonFXConfiguration driveConfig = globalConfig.driveVelocityControl.getConfig();
+        driveConfig.Feedback.SensorToMechanismRatio = globalConfig.driveRatio / globalConfig.wheelCircumferenceMeters; //Set gear ratio for drive to be equivalent to distance
 
-        TalonFXConfiguration turnConfig = config.turnPositionControl.getConfig();
-        turnConfig.Feedback.SensorToMechanismRatio = config.turnRatio; //Set gear ratio for drive
+        TalonFXConfiguration turnConfig = globalConfig.turnPositionControl.getConfig();
+        turnConfig.Feedback.SensorToMechanismRatio = globalConfig.turnRatio; //Set gear ratio for drive
         turnConfig.ClosedLoopGeneral.ContinuousWrap = true; //Continuous mechanism wrap
 
 
