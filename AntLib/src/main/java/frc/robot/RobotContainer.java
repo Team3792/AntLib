@@ -6,6 +6,8 @@ package frc.robot;
 
 import org.ejml.equation.Sequence;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -45,6 +47,7 @@ public class RobotContainer {
     controller.R1().whileTrue(new FunctionalCommand(() -> {exampleTalonFX.resetPulse();}, () -> {exampleTalonFX.setPulse(5, 1, 0.2, 0.2);}, (i) -> {exampleTalonFX.setVoltage(0);}, () -> false));
     controller.R2().whileTrue(intakeSubsystem.getIntakeCommand(new double[] {1, 5}));
 
+    //Wait one second after game piece has been intook before handing off to other mechanism
     intakeSubsystem.getHasGamePieceTrigger().onTrue(
       Commands.waitSeconds(1).andThen(Commands.print("Hand Off"))
     );

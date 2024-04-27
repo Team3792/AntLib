@@ -23,10 +23,7 @@ public class AntPS5Controller extends CommandPS5Controller{
         getHID().setRumble(RumbleType.kBothRumble, level);
     }
 
-
-
-
-
+    
     public void rumbleForTime(int level, double timeSeconds){
         setRumble(level);
         new Thread( () -> {
