@@ -14,18 +14,7 @@ public class ExampleIntakeSubsystem extends GenericIntakeSubsystem{
         addTalonFXMotor(1, true, "Bottom Intake");
     }
 
-    public void intake(){
-        applyVoltageToIntake(new double[]{4.0, 6.0});
-    }
-
-    public void stop(boolean interrupted){
-        applyVoltageToIntake(0);
-    }
-
-    public void extake(){
-        applyVoltageToIntake(-5.0);
-    }
-
+    @Override
     public boolean hasGamePiece(){
         return getTotalAcceleration() < -10.0;
     }

@@ -10,6 +10,10 @@ import frc.lib.drivers.TalonFX.AntTalonFX;
 
 import java.util.ArrayList;
 import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class GenericIntakeSubsystem extends SubsystemBase {
   /** Creates a new GenericIntakeSubsystem. */
@@ -78,6 +82,34 @@ public class GenericIntakeSubsystem extends SubsystemBase {
       totalCurrent += Math.abs(m.getStatorCurrent().getValueAsDouble());
     }
     return totalCurrent;
+  }
+
+
+  /**
+   *Method to return whether or not the intake has a game piece
+   This should be overriden when implemented
+   */
+  public boolean hasGamePiece(){
+    return false;
+  }
+
+  /*
+   * Returns a basic command to run intake unless gamePiece is detected
+   */
+  public Command getIntakeCommand(double[] voltages){
+    return this.startEnd(() -> applyVoltageToIntake(voltages), () -> applyVoltageToIntake(0)).until(this::hasGamePiece);
+  }
+ 
+  /*
+   * Returns a basic intake command with a universalVoltage
+   */
+  public Command getIntakeCommand(double universalVoltage){
+    return this.startEnd(() -> applyVoltageToIntake(universalVoltage), () -> applyVoltageToIntake(0)).until(this::hasGamePiece);
+  }
+
+
+  public Trigger getHasGamePieceTrigger(){
+    return new Trigger(this::hasGamePiece);
   }
   
 

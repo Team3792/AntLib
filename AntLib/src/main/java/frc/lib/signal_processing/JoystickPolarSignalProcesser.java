@@ -13,7 +13,7 @@ public class JoystickPolarSignalProcesser {
         double radius = input.getNorm();
         if(radius == 0)
             return input; //Do nothing for "null" translation to avoid division by 0
-        return input.times(JoystickSignalProcessor.calculate(clamp(radius), radialConfig)/radius); //Keeping arg the same, replaces radius (or clamp down to lower)
+        return input.times(JoystickSignalProcessor.calculate(unitClamp(radius), radialConfig)/radius); //Keeping arg the same, replaces radius (or clamp down to lower)
     }
 
 
@@ -25,7 +25,7 @@ public class JoystickPolarSignalProcesser {
      * @param input
      * @return clamped input from -1 to 1
      */
-    private static double clamp(double input){
+    private static double unitClamp(double input){
         if(input < -1){
             return -1;
         }

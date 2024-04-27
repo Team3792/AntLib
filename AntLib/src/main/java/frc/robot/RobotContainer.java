@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.ejml.equation.Sequence;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -21,7 +23,6 @@ public class RobotContainer {
   SRXMagEncoder encoder2 = new SRXMagEncoder(1, "right encoder");
 
   ExampleIntakeSubsystem intakeSubsystem = new ExampleIntakeSubsystem();
-  Command intakeCommand = new FunctionalCommand(intakeSubsystem::intake, () -> {}, intakeSubsystem::stop, intakeSubsystem::hasGamePiece, intakeSubsystem);
 
   AntPS5Controller controller = new AntPS5Controller(0, "Driver Controller");
 
@@ -42,6 +43,11 @@ public class RobotContainer {
 
   private void configureBindings() {
     controller.R1().whileTrue(new FunctionalCommand(() -> {exampleTalonFX.resetPulse();}, () -> {exampleTalonFX.setPulse(5, 1, 0.2, 0.2);}, (i) -> {exampleTalonFX.setVoltage(0);}, () -> false));
+    controller.R2().whileTrue(intakeSubsystem.getIntakeCommand(new double[] {1, 5}));
+
+    intakeSubsystem.getHasGamePieceTrigger().onTrue(
+      Commands.waitSeconds(1).andThen(Commands.print("Hand Off"))
+    );
   }
 
   public Command getAutonomousCommand() {
