@@ -5,6 +5,7 @@
 package frc.lib.subsystem_architectures.swerve;
 
 import frc.lib.drivers.TalonFX.TalonFXVelocityControl;
+import frc.lib.debugging.ControlTuning.ProfiledPIDConfig;
 import frc.lib.drivers.TalonFX.TalonFXPositionControl;
 
 /** Add your docs here. */
@@ -16,10 +17,11 @@ public class GlobalSwerveConfiguration {
     public double frontBackTrackWidthMeters, leftRightTrackWidthMeters;
     public int pigeonID;
     public double maxModuleSpeed;
+    public ProfiledPIDConfig headingControllerConfig;
 
     public GlobalSwerveConfiguration(TalonFXPositionControl turnPositionControl, TalonFXVelocityControl driveVelocityControl,
         double turnRatio, double driveRatio, double wheelCircumferenceMeters,
-        double frontBackTrackWidthMeters, double leftRightTrackWidthMeters, int pigeonID, double maxModuleSpeed){
+        double frontBackTrackWidthMeters, double leftRightTrackWidthMeters, int pigeonID, double maxModuleSpeed, ProfiledPIDConfig headingControllerConfig){
             this.turnPositionControl = turnPositionControl;
             this.driveVelocityControl = driveVelocityControl;
             this.turnRatio = turnRatio;
@@ -29,5 +31,6 @@ public class GlobalSwerveConfiguration {
             this.leftRightTrackWidthMeters = leftRightTrackWidthMeters;
             this.pigeonID = pigeonID;
             this.maxModuleSpeed = maxModuleSpeed;
+            this.headingControllerConfig = headingControllerConfig;
     }
 }

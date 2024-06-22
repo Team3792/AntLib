@@ -19,6 +19,9 @@ public class GenericSwerveSubsystem extends SubsystemBase {
   SwerveDriveKinematics kinematics;
   Pigeon2 pigeon;
   double maxModuleSpeed;
+  ProfiledPIDController headingController;
+  SwerveAccelerationLimiter accelerationLimiter;
+  boolean limitAcceleration = false;
 
   public GenericSwerveSubsystem(GlobalSwerveConfiguration globalConfig, SwerveModuleConfiguration[] moduleConfigs) {
     //Apply configurations to each module
@@ -42,13 +45,28 @@ public class GenericSwerveSubsystem extends SubsystemBase {
     pigeon = new Pigeon2(globalConfig.pigeonID);
 
     maxModuleSpeed = globalConfig.maxModuleSpeed;
+
+    //Setup headingController
+    headingController = globalConfig.headingControllerConfig.getController();
+    headingController.enableContinuousInput(-Math.PI, Math.PI);
+  }
+
+  
+  public void addAccelerationLimit(double x, double y, double t, double skid){
+    accelerationLimiter = new SwerveAccelerationLimiter(x, y, t, skid);
+    limitAcceleration = true;
   }
 
 
   public void drive(ChassisSpeeds speeds, boolean fieldCentric){
-    //Modify speeds of field centric
+    //Convert field centric to robot centric if fieldCentric is true
     if(fieldCentric){
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, getHeadingRotation2d());
+    }
+
+    //Limit accelerations in robot-centric coordinates with SwerveAccelerationLimiter object
+    if(limitAcceleration){
+      speeds = accelerationLimiter.calculate(speeds);
     }
 
     //Using kinematics, determine individual module states
@@ -72,8 +90,14 @@ public class GenericSwerveSubsystem extends SubsystemBase {
     return getPigeonRotation2d();
   }
 
+  private double getHeadingDegrees(){
+    return getHeadingRotation2d().getDegrees();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    headingController.calculate(getHeadingDegrees());
+    
   }
 }

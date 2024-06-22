@@ -11,6 +11,10 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 /** Add your docs here. */
 public class SwerveModule{
@@ -31,6 +35,10 @@ public class SwerveModule{
 
         driveMotor.applyConfig(driveConfig);
         turnMotor.applyConfig(turnConfig);
+    }
+
+    public void enableTelemetry(){
+        ShuffleboardLayout moduleLayout = Shuffleboard.getTab("Motors").getLayout("Swerve Module", BuiltInLayouts.kList);
     }
 
     public void setState(SwerveModuleState desiredState){
