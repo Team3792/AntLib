@@ -5,6 +5,9 @@
 package frc.lib.subsystem_architectures.swerve;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -21,6 +24,8 @@ import frc.lib.signal_processing.JoystickSignalProcessor;
 import frc.lib.signal_processing.JoystickSignalProcessorConfig;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import java.util.function.Supplier;
+import edu.wpi.first.wpilibj.DriverStation;
+
 
 public class GenericSwerveSubsystem extends SubsystemBase {
   SwerveModule[] modules = new SwerveModule[4];
@@ -62,12 +67,38 @@ public class GenericSwerveSubsystem extends SubsystemBase {
 
     //Setup poseEstimator
     poseEstimator = new SwerveDrivePoseEstimator(kinematics, getPigeonRotation2d(), getModulePositions(), new Pose2d());
+
+    configurePathPlanner(globalConfig, Math.hypot(dX/2, dY/2));
   }
 
   
   public void addAccelerationLimit(double x, double y, double t, double skid){
     accelerationLimiter = new SwerveAccelerationLimiter(x, y, t, skid);
     limitAcceleration = true;
+  }
+
+  private void configurePathPlanner(SwerveConfiguration.GlobalConfig globalConfig, double driveBaseRadius){
+    AutoBuilder.configureHolonomic(
+      this::getPose, 
+      this::resetPose, 
+      this::getChassisSpeeds, 
+      (speeds) -> drive(speeds, false),
+      new HolonomicPathFollowerConfig(
+        globalConfig.translationPID(),
+        globalConfig.rotationPID(),
+        maxModuleSpeed,
+        driveBaseRadius,
+        new ReplanningConfig()
+        ),
+        () -> {
+          var alliance = DriverStation.getAlliance();
+          if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+          }
+          return false;
+        },
+        this
+        ); // Reference to this subsystem to set requirements);
   }
 
 
@@ -143,12 +174,23 @@ public class GenericSwerveSubsystem extends SubsystemBase {
     return pigeon.getRotation2d();
   }
 
+
   private SwerveModulePosition[] getModulePositions(){
     return new SwerveModulePosition[]{
       modules[0].getPosition(),
       modules[1].getPosition(),
       modules[2].getPosition(),
       modules[3].getPosition()
+    };
+  }
+
+  
+  private SwerveModuleState[] getModuleStates(){
+    return new SwerveModuleState[]{
+      modules[0].getState(),
+      modules[1].getState(),
+      modules[2].getState(),
+      modules[3].getState()
     };
   }
 
@@ -165,6 +207,14 @@ public class GenericSwerveSubsystem extends SubsystemBase {
 
   public Pose2d getPose(){
     return poseEstimator.getEstimatedPosition();
+  }
+
+  private void resetPose(Pose2d pose){
+    poseEstimator.resetPosition(getPigeonRotation2d(), getModulePositions(), pose);
+  }
+
+  private ChassisSpeeds getChassisSpeeds(){
+    return kinematics.toChassisSpeeds(getModuleStates());
   }
 
 

@@ -23,12 +23,6 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  //Testing signal processing
-  private SwerveMovementSimulator swerveMovementSimulator = new SwerveMovementSimulator();
-  private AntPS5Controller controller = new AntPS5Controller(5, "Driver Joystick");
-  private JoystickSignalProcessorConfig radialSignalProcessor = new JoystickSignalProcessorConfig(-2.5, 2.5, 0, CurveType.kCubic);
-  private JoystickSignalProcessorConfig thetaSignalProcessor = new JoystickSignalProcessorConfig(-3, 3, 0, CurveType.kLinear);
-
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
@@ -68,17 +62,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    //controller.setRumble(1);
   }
 
   @Override
   public void teleopPeriodic() {
-    
-     swerveMovementSimulator.drive(
-       new Transform2d(
-         JoystickPolarSignalProcesser.calculate(-controller.getLeftY(), -controller.getLeftX(), radialSignalProcessor), 
-         new Rotation2d(JoystickSignalProcessor.calculate(-controller.getRightX(), thetaSignalProcessor)))
-     );
   }
 
   @Override

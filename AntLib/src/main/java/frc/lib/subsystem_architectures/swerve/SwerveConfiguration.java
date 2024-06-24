@@ -4,12 +4,14 @@
 
 package frc.lib.subsystem_architectures.swerve;
 
+import com.pathplanner.lib.util.PIDConstants;
+
 import frc.lib.debugging.ControlTuning.ProfiledPIDConfig;
 import frc.lib.drivers.TalonFX.TalonFXControlConfiguration;
 
 /** Add your docs here. */
 public class SwerveConfiguration {
-    public record GlobalConfig(double frontBackTrackWidthMeters, double leftRightTrackWidthMeters, int pigeonID, ProfiledPIDConfig headingControllerConfig){}
+    public record GlobalConfig(double frontBackTrackWidthMeters, double leftRightTrackWidthMeters, int pigeonID, ProfiledPIDConfig headingControllerConfig, PIDConstants translationPID, PIDConstants rotationPID){}
     public record ModuleSpecificConfig(int turnMotorID, int driveMotorID, int encoderID, double encoderOffset){}
     public record SharedModuleConfig(TalonFXControlConfiguration.PositionConfiguration turnConfig, TalonFXControlConfiguration.VelocityConfiguration driveConfig, double turnRatio, double driveRatio, double wheelCircumferenceMeters, double maxModuleSpeed){}
 }

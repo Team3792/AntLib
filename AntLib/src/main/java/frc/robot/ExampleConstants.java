@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.pathplanner.lib.util.PIDConstants;
 
 import edu.wpi.first.wpilibj.Joystick;
 import frc.lib.debugging.ControlTuning.ProfiledPIDConfig;
@@ -19,7 +20,9 @@ public class ExampleConstants {
             0, 
             0, 
             0, 
-            new ProfiledPIDConfig(0, 0, 0, 0, 0)
+            new ProfiledPIDConfig(0, 0, 0, 0, 0),
+            new PIDConstants(5, 0, 0),
+            new PIDConstants(5, 0, 0)
             );
 
         public static final SwerveConfiguration.SharedModuleConfig kSharedModuleConfig = new SwerveConfiguration.SharedModuleConfig(
