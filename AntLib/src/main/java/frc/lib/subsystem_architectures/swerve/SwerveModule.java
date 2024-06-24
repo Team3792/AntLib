@@ -10,7 +10,9 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.units.Measure;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -20,16 +22,16 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 public class SwerveModule{
     AntTalonFX driveMotor, turnMotor;
 
-    public SwerveModule(GlobalSwerveConfiguration globalConfig, SwerveModuleConfiguration moduleConfig){
-        driveMotor = new AntTalonFX(moduleConfig.driveMotorID, "Swerve Drive - " + moduleConfig.driveMotorID);
-        turnMotor = new AntTalonFX(moduleConfig.turnMotorID, "Swerve Drive - " + moduleConfig.turnMotorID);
+    public SwerveModule(SwerveConfiguration.SharedModuleConfig sharedConfig, SwerveConfiguration.ModuleSpecificConfig moduleConfig){
+        driveMotor = new AntTalonFX(moduleConfig.driveMotorID(), "Swerve Drive - " + moduleConfig.driveMotorID());
+        turnMotor = new AntTalonFX(moduleConfig.turnMotorID(), "Swerve Drive - " + moduleConfig.turnMotorID());
 
         //Edit and apply motor configurations
-        TalonFXConfiguration driveConfig = globalConfig.driveVelocityControl.getConfig();
-        driveConfig.Feedback.SensorToMechanismRatio = globalConfig.driveRatio / globalConfig.wheelCircumferenceMeters; //Set gear ratio for drive to be equivalent to distance
+        TalonFXConfiguration driveConfig = sharedConfig.driveConfig();
+        driveConfig.Feedback.SensorToMechanismRatio = sharedConfig.driveRatio() / sharedConfig.wheelCircumferenceMeters(); //Set gear ratio for drive to be equivalent to distance
 
-        TalonFXConfiguration turnConfig = globalConfig.turnPositionControl.getConfig();
-        turnConfig.Feedback.SensorToMechanismRatio = globalConfig.turnRatio; //Set gear ratio for drive
+        TalonFXConfiguration turnConfig = sharedConfig.turnConfig();
+        turnConfig.Feedback.SensorToMechanismRatio = sharedConfig.turnRatio(); //Set gear ratio for drive
         turnConfig.ClosedLoopGeneral.ContinuousWrap = true; //Continuous mechanism wrap
 
 
@@ -52,9 +54,17 @@ public class SwerveModule{
         return new SwerveModuleState(getSpeedMetersPerSecond(), getTurnPosition());
     }
 
+    public SwerveModulePosition getPosition(){
+        return new SwerveModulePosition(getDrivePosition(), getTurnPosition());
+    }
+
 
     private Rotation2d getTurnPosition(){
         return Rotation2d.fromRotations(turnMotor.getPosition().getValueAsDouble());
+    }
+
+    private double getDrivePosition(){
+        return driveMotor.getPosition().getValueAsDouble();
     }
 
     private double getSpeedMetersPerSecond(){
