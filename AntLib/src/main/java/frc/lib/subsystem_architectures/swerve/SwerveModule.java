@@ -27,10 +27,22 @@ public class SwerveModule{
         turnMotor = new AntTalonFX(moduleConfig.turnMotorID(), "Swerve Drive - " + moduleConfig.turnMotorID());
 
         //Edit and apply motor configurations
-        TalonFXConfiguration driveConfig = sharedConfig.driveConfig();
+        TalonFXConfiguration driveConfig = new TalonFXConfiguration();
+
+        driveConfig.Slot0.kS = sharedConfig.driveConfig().kS();
+        driveConfig.Slot0.kV = sharedConfig.driveConfig().kV();
+        driveConfig.Slot0.kP = sharedConfig.driveConfig().kP();
+        driveConfig.Slot0.kI = sharedConfig.driveConfig().kI();
+        driveConfig.Slot0.kD = sharedConfig.driveConfig().kD();
+        
         driveConfig.Feedback.SensorToMechanismRatio = sharedConfig.driveRatio() / sharedConfig.wheelCircumferenceMeters(); //Set gear ratio for drive to be equivalent to distance
 
-        TalonFXConfiguration turnConfig = sharedConfig.turnConfig();
+        TalonFXConfiguration turnConfig = new TalonFXConfiguration();
+
+        turnConfig.Slot0.kP = sharedConfig.turnConfig().kP();
+        turnConfig.Slot0.kI = sharedConfig.turnConfig().kI();
+        turnConfig.Slot0.kD = sharedConfig.turnConfig().kD();
+        
         turnConfig.Feedback.SensorToMechanismRatio = sharedConfig.turnRatio(); //Set gear ratio for drive
         turnConfig.ClosedLoopGeneral.ContinuousWrap = true; //Continuous mechanism wrap
 

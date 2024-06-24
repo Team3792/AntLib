@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.lib.drivers.SRXMagEncoder;
 import frc.lib.drivers.PS5Controller.AntPS5Controller;
 import frc.lib.drivers.TalonFX.AntTalonFX;
-import frc.lib.drivers.TalonFX.TalonFXPositionControl;
 import frc.robot.Subsystems.ExampleIntakeSubsystem;
 import frc.lib.debugging.ConnectionManager;
 import frc.lib.debugging.ControlTuning.DashboardProfiledPIDTuner;
@@ -37,7 +36,6 @@ public class RobotContainer {
   AntTalonFX rightShooter = new AntTalonFX(21, "Right Shooter");
   AntTalonFX leftShooter = new AntTalonFX(20, "Left Shooter");
 
-  TalonFXPositionControl positionControl = new TalonFXPositionControl(0.2, 1.0, 0.0, 1.0, 0.1, 0.0, 10.0, 10.0);
 
   //DashboardProfiledPIDTuner examplePIDTuner = new DashboardProfiledPIDTuner("Example Tuner");
   
@@ -48,8 +46,6 @@ public class RobotContainer {
     //Demonstration of features of AntTalonFX
     // exampleTalonFX.addInformation(AntTalonFX.MotorInformationType.kKinematics); //Add position, velocity, and acceleration information
     // exampleTalonFX.addInformation(AntTalonFX.MotorInformationType.kElectricity); //Add voltage and stator current information
-    // exampleTalonFX.applyConfig(positionControl.getConfig()); //Apply positionControl configs
-    // exampleTalonFX.setPositionWithConfiguration(100); //Send position request to motor (only needed one time)
   }
 
   private void configureBindings() {

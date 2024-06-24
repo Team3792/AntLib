@@ -4,16 +4,12 @@
 
 package frc.lib.subsystem_architectures.swerve;
 
-import frc.lib.drivers.TalonFX.TalonFXVelocityControl;
-
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-
 import frc.lib.debugging.ControlTuning.ProfiledPIDConfig;
-import frc.lib.drivers.TalonFX.TalonFXPositionControl;
+import frc.lib.drivers.TalonFX.TalonFXControlConfiguration;
 
 /** Add your docs here. */
 public class SwerveConfiguration {
     public record GlobalConfig(double frontBackTrackWidthMeters, double leftRightTrackWidthMeters, int pigeonID, ProfiledPIDConfig headingControllerConfig){}
     public record ModuleSpecificConfig(int turnMotorID, int driveMotorID, int encoderID, double encoderOffset){}
-    public record SharedModuleConfig(TalonFXConfiguration turnConfig, TalonFXConfiguration driveConfig, double turnRatio, double driveRatio, double wheelCircumferenceMeters, double maxModuleSpeed){}
+    public record SharedModuleConfig(TalonFXControlConfiguration.PositionConfiguration turnConfig, TalonFXControlConfiguration.VelocityConfiguration driveConfig, double turnRatio, double driveRatio, double wheelCircumferenceMeters, double maxModuleSpeed){}
 }
